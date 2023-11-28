@@ -23,7 +23,6 @@ ALTER TABLE `dweb2`
   ADD PRIMARY KEY (`id`);
 ALTER TABLE `dweb2`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-COMMIT;
 
 CREATE TABLE `dweb3` (
   `servico` varchar(255) NOT NULL,
