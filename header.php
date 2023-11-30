@@ -12,7 +12,6 @@ if (isset($_SESSION['usuario_autenticado']) && $_SESSION['usuario_autenticado'] 
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $primeiroNome = isset($result['usuario']) ? explode(' ', $result['usuario'])[0] : '';
 
-    // Botão para abrir o menu
     $logoutButton = '<div class="dropdown">
                         <button class="btn btn-primary btn-circle font-weight-bold" onclick="toggleDropdown()" aria-haspopup="true" aria-expanded="false">
                             ' . strtoupper(substr($primeiroNome, 0, 1)) . '
@@ -33,7 +32,6 @@ if (isset($_SESSION['usuario_autenticado']) && $_SESSION['usuario_autenticado'] 
         dropdownMenu.style.display = (dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '') ? 'block' : 'none';
     }
 
-    // Fechar o dropdown se clicar fora dele
     window.onclick = function (event) {
         if (!event.target.matches('.btn-circle')) {
             var dropdowns = document.getElementsByClassName('dropdown-menu');
@@ -74,7 +72,7 @@ if (isset($_SESSION['usuario_autenticado']) && $_SESSION['usuario_autenticado'] 
 <style>
     .btn-circle {
         border-radius: 50%;
-        padding: 10px 15px; /* Ajuste conforme necessário */
+        padding: 10px 15px;
         display: inline-block;
     }
 

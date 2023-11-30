@@ -29,20 +29,15 @@
         }
     </style>
     <script>
-        // Adiciona a máscara de telefone
         $(document).ready(function() {
             $('#telefone').on('input', function () {
-                // Remove espaços da entrada
                 var telefone = $(this).val().replace(/\s/g, '');
         
-                // Aplica a máscara (00) 00000-0000
                 telefone = telefone.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
 
-                // Atualiza o valor do campo
                 $(this).val(telefone);
             });
 
-            // Adiciona a validação de senha
             $('#senha, #repetir_senha').on('keyup', function () {
                 if ($('#senha').val() == $('#repetir_senha').val()) {
                     $('#senha, #repetir_senha').css('border-color', 'green');
@@ -90,7 +85,6 @@
         
     <?php include_once 'footer.php'; ?>
 
-    <!-- Adicione o plugin de máscara de telefone -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 </body>
 </html>

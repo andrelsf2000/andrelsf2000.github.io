@@ -1,15 +1,13 @@
 <?php
 require_once 'config.php';
 
-// Inclua o código para conectar ao banco de dados
 $pdo = new PDO('mysql:host=localhost;dbname=bddweb', 'root', '');
 
-// Inclua lógica para obter os dados do usuário a partir do banco de dados
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-$userData = []; // Inicializa $userData como um array vazio
+$userData = [];
 
 if (isset($_SESSION['usuario_autenticado']) && $_SESSION['usuario_autenticado'] === true) {
     $email = $_SESSION['email'];
@@ -18,21 +16,17 @@ if (isset($_SESSION['usuario_autenticado']) && $_SESSION['usuario_autenticado'] 
     $stmt->execute([$email]);
     $userData = $stmt->fetch(PDO::FETCH_ASSOC);
 } else {
-    // Se o usuário não estiver autenticado, redirecione para a página de login
     header("Location: login.php");
     exit();
 }
 
-// Lógica para atualizar os dados
-$updateSuccessMessage = ''; // Inicializa a mensagem de sucesso como uma string vazia
+$updateSuccessMessage = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Definindo os novos valores como os valores atuais do usuário
     $newEmail = $userData['email'];
     $newPhone = $userData['telefone'];
     $newPassword = $userData['senha'];
 
-    // Atualiza os valores se os campos foram preenchidos
     if (isset($_POST["newEmail"]) && !empty($_POST["newEmail"])) {
         $newEmail = $_POST["newEmail"];
     }
@@ -42,36 +36,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (isset($_POST["newPassword"]) && !empty($_POST["newPassword"])) {
-        // Verifica se as senhas são idênticas, apenas se uma nova senha for fornecida
         $newPassword = $_POST["newPassword"];
         $repeatPassword = $_POST["repeatPassword"];
 
         if ($newPassword !== $repeatPassword) {
-            // Informa o usuário sobre senhas não coincidentes
             echo "A nova senha não confere, tente novamente!";
-            exit(); // Encerra o script se as senhas não coincidirem
+            exit();
         }
 
-        // Hash da nova senha
         $newPassword = password_hash($newPassword, PASSWORD_DEFAULT);
     }
 
-    // Atualiza os dados no banco de dados
     $updateSql = "UPDATE dweb SET email = ?, telefone = ?, senha = ? WHERE email = ?";
     $updateStmt = $pdo->prepare($updateSql);
     $updateStmt->execute([$newEmail, $newPhone, $newPassword, $email]);
 
-    // Define a mensagem de sucesso apenas se os dados foram realmente atualizados
     if ($updateStmt->rowCount() > 0) {
-        // Redireciona para a página de sucesso após a atualização bem-sucedida
         header("Location: atualizacao_sucesso.php");
-        exit(); // Certifique-se de que não há código após o redirecionamento
+        exit();
     }
 }
 
-// Lógica para exclusão do cadastro
 if (isset($_POST["excluirCadastro"])) {
-    // Apresenta uma mensagem de confirmação e um botão "Sim" e "Não"
     echo '
         <script>
             var confirmacao = confirm("Tem certeza de que deseja excluir seu cadastro?");
@@ -84,17 +70,13 @@ if (isset($_POST["excluirCadastro"])) {
     ';
 }
 
-// Lógica para confirmar a exclusão
 if (isset($_GET["excluir"]) && $_GET["excluir"] == "true") {
-    // Exclua os dados do usuário do banco de dados
     $deleteSql = "DELETE FROM dweb WHERE email = ?";
     $deleteStmt = $pdo->prepare($deleteSql);
     $deleteStmt->execute([$email]);
 
-    // Limpe as variáveis de sessão
     session_unset();
 
-    // Apresenta a mensagem de exclusão bem-sucedida e redireciona para a página inicial
     echo '
         <script>
             alert("Seus dados foram excluídos com sucesso!");
@@ -136,11 +118,9 @@ if (isset($_GET["excluir"]) && $_GET["excluir"] == "true") {
 
     </style>
     <script>
-        // Adiciona a máscara de telefone
         $(document).ready(function() {
             $('#newPhone').mask('(00) 00000-0000');
             
-            // Adiciona a validação de senha apenas se uma nova senha for fornecida
             $('#newPassword, #repeatPassword').on('keyup', function () {
                 if ($('#newPassword').val() !== "") {
                     if ($('#newPassword').val() == $('#repeatPassword').val()) {
@@ -158,17 +138,14 @@ if (isset($_GET["excluir"]) && $_GET["excluir"] == "true") {
         
     <h1>Meu Cadastro</h1>
 
-    <!-- Exiba a mensagem de sucesso se existir -->
     <?php if (!empty($updateSuccessMessage)) : ?>
         <p style="color: green;"><?php echo $updateSuccessMessage; ?></p>
     <?php endif; ?>
     
-    <!-- Exiba os dados do usuário -->
     <p><strong>Nome:</strong> <?php echo $userData['usuario']; ?></p>
     <p><strong>E-mail:</strong> <?php echo $userData['email']; ?></p>
     <p><strong>Telefone:</strong> <?php echo $userData['telefone']; ?></p>
 
-    <!-- Formulário para alteração dos dados -->
     <form action="meucadastro.php" method="post">
         <label for="newEmail">Novo E-mail:</label>
         <input type="email" id="newEmail" name="newEmail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Insira um e-mail válido">
@@ -184,15 +161,13 @@ if (isset($_GET["excluir"]) && $_GET["excluir"] == "true") {
 
         <button type="submit">Atualizar Cadastro</button>
 
-        <br> <br> <!-- Adicione esta linha para criar uma quebra de linha -->
+        <br> <br>
         
-        <!-- Botão Excluir Cadastro -->
         <button type="submit" name="excluirCadastro" onclick="return confirm('Tem certeza de que deseja excluir seu cadastro?');">Excluir Cadastro</button>
     </form>
 
     <?php include_once 'footer.php'; ?>
 
-    <!-- Adicione o plugin de máscara de telefone -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 </body>
 </html>

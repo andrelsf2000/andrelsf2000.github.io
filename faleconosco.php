@@ -1,19 +1,15 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Recupere os dados do formulário
     $nome = $_POST["nome"];
     $email = $_POST["email"];
     $mensagem = $_POST["mensagem"];
 
-    // Conectar ao banco de dados
     $pdo = new PDO('mysql:host=localhost;dbname=bddweb', 'root', '');
 
-    // Inserir dados no banco
     $sql = "INSERT INTO dweb2 (nome, email, mensagem) VALUES (?, ?, ?)";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$nome, $email, $mensagem]);
 
-    // Verificar se a inserção foi bem-sucedida
     if ($stmt->rowCount() > 0) {
         echo "Mensagem enviada com sucesso!";
     } else {
@@ -78,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="mensagem">Mensagem</label>
                     <textarea class="form-control" id="mensagem" name="mensagem" rows="5" placeholder="Digite sua mensagem"></textarea>
                 </div>
-                <div class="form-group mt-2"> <!-- Adicionando margem superior -->
+                <div class="form-group mt-2">
                     <button type="submit" class="btn btn-primary">Enviar</button>
                 </div>
             </form>

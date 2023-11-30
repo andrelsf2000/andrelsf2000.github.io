@@ -36,7 +36,6 @@
         <section>
             <h2>Sucesso na Atualização</h2>
             <p>Seus dados foram atualizados com sucesso!</p>
-            <!-- Adicione mais informações ou links, se necessário -->
         </section>
     </main>
 

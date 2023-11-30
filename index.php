@@ -1,5 +1,4 @@
 <?php
-// Arrays de imagens
 $imagens1 = [
     "Imagem/fitness-and-health-5711488.jpg",
     "Imagem/pexels-anastasia-shuraeva-4944978.jpg",
@@ -22,19 +21,15 @@ $imagens1 = [
     "Imagem/bruce-mars-tj27cwu86Wk-unsplash.jpg",
 ];
 
-// Embaralhe aleatoriamente as imagens
 shuffle($imagens1);
 shuffle($imagens2);
 
-// Divida as imagens entre as fileiras
 $primeiraFileira = array_slice($imagens1, 0, count($imagens1) / 2);
 $terceiraFileira = array_slice($imagens1, count($imagens1) / 2);
 
-// Divida as imagens entre as fileiras
 $segundaFileira = array_slice($imagens2, 0, count($imagens2) / 2);
 $quartaFileira = array_slice($imagens2, count($imagens2) / 2);
 
-// Embaralhe novamente as fileiras se necessário
 shuffle($primeiraFileira);
 shuffle($segundaFileira);
 ?>
@@ -71,7 +66,6 @@ shuffle($segundaFileira);
             <p class="text-justify">Aqui estão alguns exemplos de exercícios para manter-se saudável.</p>
             
             <div class="row">
-                <!-- Exibição da primeira fileira -->
                 <?php foreach ($primeiraFileira as $imagem1): ?>
                     <div class="col-md-3 mb-4">
                         <img src="<?php echo $imagem1; ?>" alt="Exercício" class="img-fluid">
@@ -80,7 +74,6 @@ shuffle($segundaFileira);
             </div>
 
             <div class="row">
-                <!-- Exibição da segunda fileira -->
                 <?php foreach ($segundaFileira as $imagem2): ?>
                     <div class="col-md-3 mb-4">
                         <img src="<?php echo $imagem2; ?>" alt="Exercício" class="img-fluid">
@@ -89,7 +82,6 @@ shuffle($segundaFileira);
             </div>
 
             <div class="row">
-                <!-- Exibição da terceira fileira -->
                 <?php foreach ($terceiraFileira as $imagem1): ?>
                     <div class="col-md-3 mb-4">
                         <img src="<?php echo $imagem1; ?>" alt="Exercício" class="img-fluid">
@@ -98,7 +90,6 @@ shuffle($segundaFileira);
             </div>
 
             <div class="row">
-                <!-- Exibição da quarta fileira -->
                 <?php foreach ($quartaFileira as $imagem2): ?>
                     <div class="col-md-3 mb-4">
                         <img src="<?php echo $imagem2; ?>" alt="Exercício" class="img-fluid">
